@@ -31,7 +31,7 @@
 ---
 ## 🚀 Clone the Repository
 ```bash
-git clone https://github.com/your-username/CREDIT_PVAMU_CADOT_Challenge.git
+git clone https://github.com/olamofe/CREDIT_PVAMU_CADOT_Challenge.git
 cd CREDIT_PVAMU_CADOT_Challenge
 ```
 
