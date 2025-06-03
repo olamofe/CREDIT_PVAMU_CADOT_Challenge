@@ -1,180 +1,181 @@
-# Challenge Object Detection
+<p align="center">
+  <img src="https://your-image-url.com/banner.png" width="80%" alt="Project Banner">
+</p>
 
-This project involves training, inference, and evaluation of object detection models using the CADOT Dataset in COCO format and YOLO/Ultralytics-based pipelines. It includes tools for prediction, COCO-style evaluation, and metrics analysis.
+<h1 align="center">🔍 CREDIT PVAMU - CADOT Challenge Submission</h1>
+
+<p align="center">
+  <b>Ultralytics YOLO-based Ensemble for Aerial Object Detection</b><br>
+  <i>Final submission for the CADOT Challenge</i>
+</p>
+
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10-blue">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-green">
+  <img alt="CUDA" src="https://img.shields.io/badge/CUDA-12.0-yellow">
+</p>
 
 ---
 
-# 🖥️ Hardware and Software Requirements
+## 🖥️ Hardware and Software Requirements
 
-- **Operating System**: Ubuntu 20.04 (Linux kernel 4.15.0-213-generic)
-- **CPU**: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz (40 cores)
-- **RAM**: 251 GB total (204 GB used, 29 GB cached)
-- **GPU**: 4x NVIDIA Tesla V100-DGXS (32 GB VRAM each)
-- **CUDA Version**: 12.0
-- **Driver Version**: 525.147.05
-- **Python Version**: 3.10.14
+- **Operating System**: Ubuntu 20.04 (Linux kernel 4.15.0-213-generic)  
+- **CPU**: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz (40 cores)  
+- **RAM**: 251 GB total (204 GB used, 29 GB cached)  
+- **GPU**: 4x NVIDIA Tesla V100-DGXS (32 GB VRAM each)  
+- **CUDA Version**: 12.0  
+- **Driver Version**: 525.147.05  
+- **Python Version**: 3.10.14  
 - **Pip Version**: 25.1.1
 
 ---
 
-# 📦 Dependency Installation
+## 📦 Dependency Installation
 
 > 💡 It is recommended to use a Python virtual environment.
 
-<pre>
 ```bash
-
 # Create and activate virtual environment
 cd ./CREDIT_PVAMU_CADOT_Challenge
 python3 -m venv .
 source venv/bin/activate  # For Linux/macOS
+```
 
-``` </pre>
-
-<pre>
 ```bash
-
 # Install dependencies
 pip install -r requirements.txt
+```
 
-``` </pre>
-
-<pre>
 ```bash
-
 # Change current working directory to ./scripts
 cd ./CREDIT_PVAMU_CADOT_Challenge/scripts
+```
 
-``` </pre>
+---
 
+## 📂 Get CADOT Dataset
 
-# Get CADOT Dataset
-# Option A
+### Option A
+- Download CADOT Dataset and augment train data:  
+  - Train data: `./CREDIT_PVAMU_CADOT_Challenge/data/data_split`  
+  - Validation and test data: `./CREDIT_PVAMU_CADOT_Challenge/data`
 
-- Downlaod CADOT Dataset, Augument train data: train data is located @ ./CREDIT_PVAMU_CADOT_Challenge/data/data_split.
-- validation and test data @ ./CREDIT_PVAMU_CADOT_Challenge/data.
-
-<pre>
 ```bash
-
 python dataset.py
+```
 
-``` </pre>
+### Option B
+- Download Train and Augmented Dataset used in model training from Google Drive:
 
-# Option B
-- Download Train and Augmented Dataset used in model training from Google Drive
-<pre>
 ```bash
-
 # Install gdown package to download on Google Drive
 pip install gdown
 pip install --upgrade gdown
 
 gdown --fuzzy 'https://drive.google.com/file/d/1BxwQGUsE7ZYH6COhOPPtOLhdeVg062dD/view?usp=sharing'
+```
 
-``` </pre>
-
-<pre>
 ```bash
-
 unzip data_split.zip && cp -r data_split ./CREDIT_PVAMU_CADOT_Challenge/data
+```
 
-``` </pre>
+---
 
+## 🏋️‍♂️ Train Models
 
-# Option A : Train models 
-- This solution implements an emsemble technique for object detection in the CADOT Dataset.
+### Option A: Train Models
 
-- Three (3) models were trained: YOLOFocus8l, YOLOFocus11x and pretrained YOLOFocus11x weight
+- This solution implements an ensemble technique for object detection in the CADOT Dataset.  
+- Three (3) models were trained: `YOLOFocus8l`, `YOLOFocus11x`, and pretrained `YOLOFocus11x` weights  
+- These models are located at: `./Challenge-Object-Detection/models`  
+- Model train parameters: `./CREDIT_PVAMU_CADOT_Challenge/models/train_config.yaml`
 
-- These models are located @ ./Challenge-Object-Detection/models. 
-
-- Model train parameters are located @ ./CREDIT_PVAMU_CADOT_Challenge/models/train_config.yaml
-
-<pre>
 ```bash
-# The pretrained weight 'pretrained_yolofocus11x.pt' can be downlaod using the following cmd
-
-#gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz'
+# The pretrained weight 'pretrained_yolofocus11x.pt' can be downloaded using:
 gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz?usp=sharing'
-gdown --folder '1NqD1eEdOdaVTzKRdBulGGRNLjJFCn1Cz'
-
-#OR
-
 gdown --folder '1NqD1eEdOdaVTzKRdBulGGRNLjJFCn1Cz?usp=sharing'
 
-# Move pretrained_yolofocus11x.pt to ./CREDIT_PVAMU_CADOT_Challenge/models
+# Move pretrained model to target directory
 cp ./pretrained_yolofocus11x.pt ./CREDIT_PVAMU_CADOT_Challenge/models
+```
 
-``` </pre>
-
-
-
-<pre>
 ```bash
-# Train YOLOFocus8l, YOLOFocus11x and pretrained YOLOFocus11x weight  by running this cmd:
-
-python train.py --pretrained_path models/yolofocus8l.yaml --datapath data/data.yaml 
-
+# Train models
+python train.py --pretrained_path models/yolofocus8l.yaml --datapath data/data.yaml
 python train.py --pretrained_path models/yolofocus11x.yaml --datapath data/data.yaml
-
 python train.py --pretrained_path models/pretrained_yolofocus11x.pt --datapath data/data.yaml
 
-# Trained model weights are saved @ CREDIT_PVAMU_CADOT_Challenge/models/CADOT_Trained_Models
-``` </pre>
+# Trained model weights are saved at:
+# ./CREDIT_PVAMU_CADOT_Challenge/models/CADOT_Trained_Models
+```
 
-# Option B : Download Trained model weights 
-<pre>
+### Option B: Download Trained Model Weights
+
 ```bash
-# Download 'model_weights' using the following cmd
-
+# Download 'model_weights'
 gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz'
-
-# OR
-
 gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz?usp=sharing'
 
 cp ./model_weights ./CREDIT_PVAMU_CADOT_Challenge/models
+```
 
-``` </pre>
+---
 
-## Run Inference
+## 🔍 Run Inference
 
-- This script runs predictions for the three (3) models. It then emsembles the three predictions. The emsemble prediction is saved @../results/predictions.json
+- This script runs predictions for the three (3) models.  
+- It then ensembles the predictions and saves the result to:  
+  `../results/predictions.json`
 
-<pre>
 ```bash
-
 python infer.py
+```
 
-``` </pre>
+> ℹ️ **Note**: To run inference with provided weights:
+> - Ensure `model_weights` is in `./CREDIT_PVAMU_CADOT_Challenge/models`
+> - Open `infer.py` and change:  
+> `gen_path = f'{project_root}/models/CADOT_Trained_Models'`  
+> to  
+> `gen_path = f'{project_root}/models/model_weights'`
 
-
-- Note: you can directly run inference with the models trained on CADOT dataset provided for this challenge. To run inference with the trained weights; 
-
-- Ensure ./model_weight is in ./CREDIT_PVAMU_CADOT_Challenge/models
-
-- Open 'infer.py and change the variable 'gen_path = f'{project_root}/models/CADOT_Trained_Models' to 'gen_path = f'{project_root}/models/model_weights'
-
-
-<pre>
 ```bash
+cd ./CREDIT_PVAMU_CADOT_Challenge/scripts
+vim infer.py
+```
 
-cd .CREDIT_PVAMU_CADOT_Challenge/scripts && vim infer.py
+---
 
-``` </pre>
+## 📊 Model Evaluation
 
-
-
-
-# Model Evaluation
-<pre>
 ```bash
-# Script evaluate models performance and saves results to ../results/metrics.csv
-# GT file for evaluation is in coco format. 
+# Script evaluates model performance and saves results to ../results/metrics.csv
+# GT file must be in COCO format.
 
 python evaluation_metrics.py
+```
 
-``` </pre>
+---
 
+## 📎 License
 
+MIT License © 2025 CREDIT PVAMU Team
+
+---
+
+## 🙏 Acknowledgments
+
+This project builds upon the open-source work provided by [Ultralytics](https://github.com/ultralytics).  
+We used their YOLO models and training framework as a foundation for model development and evaluation.
+
+If you use this work in your research or applications, please also consider citing the original Ultralytics YOLO paper:
+
+```
+@article{glenn_jocher_2023_10366482,
+  author       = {Glenn Jocher and Ayush Chaurasia and Jiacong Fang and Abhiram V},
+  title        = {{YOLO by Ultralytics}},
+  journal      = {Zenodo},
+  year         = 2023,
+  doi          = {10.5281/zenodo.10366482},
+  url          = {https://zenodo.org/record/10366482}
+}
+```
