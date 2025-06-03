@@ -4,7 +4,7 @@ This project involves training, inference, and evaluation of object detection mo
 
 ---
 
-## 🖥️ Hardware and Software Requirements
+# 🖥️ Hardware and Software Requirements
 
 - **Operating System**: Ubuntu 20.04 (Linux kernel 4.15.0-213-generic)
 - **CPU**: Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz (40 cores)
@@ -17,41 +17,101 @@ This project involves training, inference, and evaluation of object detection mo
 
 ---
 
-## 📦 Dependency Installation
+# 📦 Dependency Installation
 
 > 💡 It is recommended to use a Python virtual environment.
 
+<pre>
+```bash
 
 # Create and activate virtual environment
-python3 -m venv venv
+cd ./CREDIT_PVAMU_CADOT_Challenge
+python3 -m venv .
 source venv/bin/activate  # For Linux/macOS
+
+``` </pre>
+
+<pre>
+```bash
 
 # Install dependencies
 pip install -r requirements.txt
 
+``` </pre>
+
+<pre>
+```bash
 
 # Change current working directory to ./scripts
-cd ./Challenge-Object-Detection/scripts
+cd ./CREDIT_PVAMU_CADOT_Challenge/scripts
+
+``` </pre>
 
 
-## Get CADOT Dataset
+# Get CADOT Dataset
+# Option A
 
-# Downlaod CADOT Dataset, Augument train data: train data is located @ ./CREDIT_PVAMU_CADOT_Challenge/data/data_split.
-# validation and test data @ ./CREDIT_PVAMU_CADOT_Challenge/data.
+- Downlaod CADOT Dataset, Augument train data: train data is located @ ./CREDIT_PVAMU_CADOT_Challenge/data/data_split.
+- validation and test data @ ./CREDIT_PVAMU_CADOT_Challenge/data.
+
+<pre>
+```bash
 
 python dataset.py
 
+``` </pre>
 
-## Train models
-# This solution implements an emsemble technique for object detection in the CADOT Dataset.
+# Option B
+- Download Train and Augmented Dataset used in model training from Google Drive
+<pre>
+```bash
 
-# Three (3) models were trained: 
-# ------ YOLOFocus8l
-# ------ YOLOFocus11x
-# ------ pretrained YOLOFocus11x weight
+# Install gdown package to download on Google Drive
+pip install gdown
+pip install --upgrade gdown
 
-# These models are located @ ./Challenge-Object-Detection/models. Model train parameters are located @ ./CREDIT_PVAMU_CADOT_Challenge/models/train_config.yaml
+gdown --fuzzy 'https://drive.google.com/file/d/1BxwQGUsE7ZYH6COhOPPtOLhdeVg062dD/view?usp=sharing'
 
+``` </pre>
+
+<pre>
+```bash
+
+unzip data_split.zip && cp -r data_split ./CREDIT_PVAMU_CADOT_Challenge/data
+
+``` </pre>
+
+
+# Option A : Train models 
+- This solution implements an emsemble technique for object detection in the CADOT Dataset.
+
+- Three (3) models were trained: YOLOFocus8l, YOLOFocus11x and pretrained YOLOFocus11x weight
+
+- These models are located @ ./Challenge-Object-Detection/models. 
+
+- Model train parameters are located @ ./CREDIT_PVAMU_CADOT_Challenge/models/train_config.yaml
+
+<pre>
+```bash
+# The pretrained weight 'pretrained_yolofocus11x.pt' can be downlaod using the following cmd
+
+#gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz'
+gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz?usp=sharing'
+gdown --folder '1NqD1eEdOdaVTzKRdBulGGRNLjJFCn1Cz'
+
+#OR
+
+gdown --folder '1NqD1eEdOdaVTzKRdBulGGRNLjJFCn1Cz?usp=sharing'
+
+# Move pretrained_yolofocus11x.pt to ./CREDIT_PVAMU_CADOT_Challenge/models
+cp ./pretrained_yolofocus11x.pt ./CREDIT_PVAMU_CADOT_Challenge/models
+
+``` </pre>
+
+
+
+<pre>
+```bash
 # Train YOLOFocus8l, YOLOFocus11x and pretrained YOLOFocus11x weight  by running this cmd:
 
 python train.py --pretrained_path models/yolofocus8l.yaml --datapath data/data.yaml 
@@ -60,25 +120,61 @@ python train.py --pretrained_path models/yolofocus11x.yaml --datapath data/data.
 
 python train.py --pretrained_path models/pretrained_yolofocus11x.pt --datapath data/data.yaml
 
-
 # Trained model weights are saved @ CREDIT_PVAMU_CADOT_Challenge/models/CADOT_Trained_Models
+``` </pre>
+
+# Option B : Download Trained model weights 
+<pre>
+```bash
+# Download 'model_weights' using the following cmd
+
+gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz'
+
+# OR
+
+gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz?usp=sharing'
+
+cp ./model_weights ./CREDIT_PVAMU_CADOT_Challenge/models
+
+``` </pre>
 
 ## Run Inference
-# This script runs predictions for the three (3) models. It then emsembles the three predictions. The emsemble prediction is saved @../results/predictions.json
+
+- This script runs predictions for the three (3) models. It then emsembles the three predictions. The emsemble prediction is saved @../results/predictions.json
+
+<pre>
+```bash
 
 python infer.py
 
+``` </pre>
 
-## Note: you can directly run inference with the models trained on CADOT dataset provided for this challenge. To run inference with the trained weights; 
+
+- Note: you can directly run inference with the models trained on CADOT dataset provided for this challenge. To run inference with the trained weights; 
+
+- Ensure ./model_weight is in ./CREDIT_PVAMU_CADOT_Challenge/models
+
+- Open 'infer.py and change the variable 'gen_path = f'{project_root}/models/CADOT_Trained_Models' to 'gen_path = f'{project_root}/models/model_weights'
+
+
+<pre>
+```bash
 
 cd .CREDIT_PVAMU_CADOT_Challenge/scripts && vim infer.py
 
-change the variable 'gen_path = f'{project_root}/models/CADOT_Trained_Models' to 'gen_path = f'{project_root}/models/model_weights'
+``` </pre>
 
 
-## Model Evaluation
+
+
+# Model Evaluation
+<pre>
+```bash
 # Script evaluate models performance and saves results to ../results/metrics.csv
 # GT file for evaluation is in coco format. 
+
 python evaluation_metrics.py
+
+``` </pre>
 
 
