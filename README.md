@@ -29,6 +29,13 @@
 - **Pip Version**: 25.1.1
 
 ---
+## 🚀 Clone the Repository
+```bash
+git clone https://github.com/your-username/CREDIT_PVAMU_CADOT_Challenge.git
+cd CREDIT_PVAMU_CADOT_Challenge
+```
+
+---
 
 ## 📦 Dependency Installation
 
