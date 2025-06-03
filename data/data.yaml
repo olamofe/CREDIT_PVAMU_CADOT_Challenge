@@ -1,0 +1,21 @@
+train: /raid/john/yolo_contribution/Challenge-Object-Detection/data/data_split/train
+val: /raid/john/yolo_contribution/Challenge-Object-Detection/data/valid
+test: /raid/john/yolo_contribution/Challenge-Object-Detection/data/test
+
+nc: 15
+names:
+  - small-object
+  - basketball field
+  - building
+  - crosswalk
+  - football field
+  - graveyard
+  - large vehicle
+  - medium vehicle
+  - playground
+  - roundabout
+  - ship
+  - small vehicle
+  - swimming pool
+  - tennis court
+  - train

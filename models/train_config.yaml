@@ -1,0 +1,57 @@
+# ============================================
+# YOLOv8 Optimized Config for 500x500 Satellite Imagery (V100, batch=16)
+# ============================================
+
+model: yolov8m.pt               # Medium model — balanced speed and accuracy
+imgsz: 512                      # Closest 32-divisible size to 500x500
+epochs: 80                     # Sufficient with early stopping enabled
+batch: 16                      # Best trade-off for small object learning
+accumulate: 2                  # Simulate batch=32 if gradients are unstable
+
+optimizer: SGD
+lr0: 0.001                     # Lower LR for stable convergence on small objects
+lrf: 0.1
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+
+box: 0.05
+cls: 0.5
+dfl: 1.5
+
+# Strong but conservative augmentations
+mosaic: true
+mixup: false
+copy_paste: false
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 0.0
+translate: 0.1
+scale: 0.4
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+
+# Evaluation and early stopping
+early_stop: true
+patience: 15
+ema: true
+save: true
+save_period: 20
+val: true
+
+# Logging
+verbose: true
+
+# Output control
+project: runs/train
+name: yolov8m_satellite_500_batch16
+exist_ok: true
+
+# Optional: Mixed precision for speed/memory
+fp16: true
+
