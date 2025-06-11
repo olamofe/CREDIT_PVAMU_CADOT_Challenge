@@ -55,7 +55,7 @@ pip install -r requirements.txt
 
 ```bash
 # Change current working directory to ./scripts
-cd ./CREDIT_PVAMU_CADOT_Challenge/scripts
+cd ./CREDIT_PVAMU_CADOT_Challenge/utils
 ```
 
 ---
@@ -99,8 +99,9 @@ unzip data_split.zip && cp -r data_split ./CREDIT_PVAMU_CADOT_Challenge/data
 
 ```bash
 # The pretrained weight 'pretrained_yolofocus11x.pt' can be downloaded using:
-gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz?usp=sharing'
 gdown --folder '1NqD1eEdOdaVTzKRdBulGGRNLjJFCn1Cz?usp=sharing'
+
+gdown --folder '1NqD1eEdOdaVTzKRdBulGGRNLjJFCn1Cz'
 
 # Move pretrained model to target directory
 cp ./pretrained_yolofocus11x.pt ./CREDIT_PVAMU_CADOT_Challenge/models
