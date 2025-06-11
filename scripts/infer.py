@@ -84,7 +84,7 @@ def load_model(model_path):
     return YOLO(model_path)
 
 
-def run_prediction(model, image_dir, conf=0.50, dir=None):
+def run_prediction(model, image_dir, conf=0.01, dir=None):
     """Run inference on a folder of images."""
     return model.predict(source=image_dir, save=True, conf=conf, name=dir)
 
@@ -104,7 +104,7 @@ def extract_image_metadata(result):
     return image_id
 
 
-def extract_annotations(result, image_id, ann_id_start, score_threshold=0.50):
+def extract_annotations(result, image_id, ann_id_start, score_threshold=0.25):
     """Extract COCO-style annotations from result.boxes"""
     annotations = []
     ann_id = ann_id_start
@@ -204,7 +204,7 @@ def group_results_by_image(result_lists):
 
 
 
-def apply_wbf_on_grouped_results(grouped_results, filename_to_id, image_size=(500, 500), iou_thr=0.75, skip_box_thr=0.5):
+def apply_wbf_on_grouped_results(grouped_results, filename_to_id, image_size=(500, 500), iou_thr=0.25, skip_box_thr=0.25):
     annotations = []
     
 
