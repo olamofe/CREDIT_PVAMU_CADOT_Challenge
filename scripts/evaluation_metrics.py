@@ -603,8 +603,8 @@ def save_metrics_csv(metric, names, image_to_class_count, instance_count, save_p
 
 if __name__ == "__main__":
     # Your code here
-    groundtruth_path = "/raid/john/yolo_contribution/ultralytics/cadot_project/dataset/CADOT_Dataset/dataset_split/valid/_annotations.coco.json"
-    predictions_path = f"{project_root}/results/predictions_valid.json"
+    groundtruth_path = f"{project_root}/data/test/_annotations.coco.json"
+    predictions_path = f"{project_root}/results/predictions.json"
     tp, conf, pred_cls, target_cls = eval(groundtruth_path, predictions_path)
     metric = Metric()
     results = ap_per_class(tp, conf, pred_cls, target_cls)
