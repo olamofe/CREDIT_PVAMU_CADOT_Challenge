@@ -93,7 +93,7 @@ unzip data_split.zip && cp -r data_split ./CREDIT_PVAMU_CADOT_Challenge/data
 ### Option A: Train Models
 
 - This solution implements an ensemble technique for object detection in the CADOT Dataset.  
-- Three (3) models were trained: `YOLOFocus8l`, `YOLOFocus11x`, and pretrained `YOLOFocus11x` weights  
+- Three (3) models were trained: `YOLOFocus8l`, `YOLOFocus11x`, and pretrained `YOLOFocus11l` weights  
 - These models are located at: `./Challenge-Object-Detection/models`  
 - Model train parameters: `./CREDIT_PVAMU_CADOT_Challenge/models/train_config.yaml`
 
@@ -111,7 +111,7 @@ cp ./pretrained_yolofocus11x.pt ./CREDIT_PVAMU_CADOT_Challenge/models
 # Train models
 python train.py --pretrained_path models/yolofocus8l.yaml --datapath data/data.yaml
 python train.py --pretrained_path models/yolofocus11x.yaml --datapath data/data.yaml
-python train.py --pretrained_path models/pretrained_yolofocus11x.pt --datapath data/data.yaml
+python train.py --pretrained_path models/pretrained_yolofocus11l.pt --datapath data/data.yaml
 
 # Trained model weights are saved at:
 # ./CREDIT_PVAMU_CADOT_Challenge/models/CADOT_Trained_Models
@@ -127,7 +127,7 @@ gdown --folder '1dlOGU5FrLSj6yycoJ_FKPTlm2HdCu9nz?usp=sharing'
 cp ./model_weights ./CREDIT_PVAMU_CADOT_Challenge/models
 ```
 
----
+
 
 ## 🔍 Run Inference
 
